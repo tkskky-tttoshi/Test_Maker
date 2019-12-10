@@ -1,0 +1,157 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "Sheet1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Sub WordDataBase()
+
+    Dim i As Integer    'for文の引き数'
+    Dim j As Integer
+    Dim l As Integer
+    Dim m As Integer
+    
+    Set dictionary = Sheets("Dictionary")
+    Set test = Sheets("Test")
+    Set answer = Sheets("Answer")
+
+    Dim word As String  '選択される単語'
+    Dim CellNumber As Integer 'セルの番号'
+    Dim numberOfTest As Integer 'テストの問題数'
+    Dim ans As String   '答え'
+
+    Dim randomNum As Long
+    Dim flag(1 To 50) As Boolean   '重複判定配列'
+    Dim ranList(1 To 50)    '乱数配列'
+
+    Dim font1 As font    '文字のフォント'
+    Dim font2 As font
+    Dim font3 As font
+    
+    Dim bs1 As Borders   '罫線を引く'
+    Dim bs2 As Borders
+    Dim b As Border
+    
+    
+     '初期化'
+    test.Range("A2:F54").Clear  '問題番号消去'
+    answer.Range("A2:D54").Clear
+        
+    '問題数設定'
+    numberOfTest = 0    '初期値'
+    dictionary.Cells(2, 4).Value = "右に1~50までで問題数を記入してください。"
+    If (dictionary.Cells(2, 5).Value <= 50) And (dictionary.Cells(2, 5).Value >= 0) Then
+        numberOfTest = dictionary.Cells(2, 5).Value
+    Else
+        dictionary.Cells(2, 5).Value = "問題数が正しくありません。"
+    End If
+    
+    
+    
+    '罫線描画する'
+    For m = 0 To numberOfTest - 1
+        Set bs1 = test.Cells(m + 3, 2).Borders
+        bs1.LineStyle = xlContinuous '上下左右の罫線'
+    
+        Set b = test.Cells(m + 3, 4).Borders(xlEdgeBottom) '下に罫線'
+        b.LineStyle = xlContinuous
+        Set b = test.Cells(m + 3, 5).Borders(xlEdgeBottom) '下に罫線'
+        b.LineStyle = xlContinuous
+        Set b = test.Cells(m + 3, 6).Borders(xlEdgeBottom) '下に罫線'
+        b.LineStyle = xlContinuous
+   
+        
+        
+        Set bs2 = answer.Cells(m + 3, 2).Borders
+        bs2.LineStyle = xlContinuous '上下左右の罫線'
+    
+    Next m
+    
+    'コメントアウト'
+    Dim randomNumber As Integer
+    Dim englishWord As String
+    Dim japaneseWord As String
+    
+    randomNumber = Int(Rnd * 6)
+    
+    If randomNumber = 0 Then
+        englishWord = "Play, eat, and study very hard. It is more important than anything else."
+        japaneseWord = "一生懸命、遊んで、食べて、勉強しなさい。それが何よりも大切なことである。"
+    ElseIf randomNumber = 1 Then
+        englishWord = "It always seems impossible until it's done."
+        japaneseWord = "何事も成功する前は不可能に思えるものである。"
+    ElseIf randomNumber = 2 Then
+        englishWord = "Without haste, but without rest."
+        japaneseWord = "急がずに、だが、休まずに。"
+    ElseIf randomNumber = 3 Then
+        englishWord = "He who moves not forward, goes backward."
+        japaneseWord = "前進しない人は、後退しているのだ。"
+    ElseIf randomNumber = 4 Then
+        englishWord = "Imagination means nothing without doing."
+        japaneseWord = "行動を伴わない想像は何も意味を持たない。"
+    ElseIf randomNumber = 5 Then
+        englishWord = ""
+        japaneseWord = ""
+    End If
+    test.Cells(numberOfTest + 3, 1).Value = englishWord
+    test.Cells(numberOfTest + 4, 1).Value = japaneseWord
+    
+    
+    Randomize
+    '重複しない乱数生成'
+    For j = 1 To numberOfTest
+        Do
+            randomNum = Int((50 - 1 + 1) * Rnd + 1)   '1~50までの乱数生成'
+        Loop Until flag(randomNum) = False
+       
+        ranList(j) = randomNum
+        flag(randomNum) = True
+    Next j
+
+      '問題番号記述'
+    For k = 1 To numberOfTest
+        test.Cells(k + 2, 1).Value = k
+        answer.Cells(k + 2, 1).Value = k
+    Next k
+    
+    'TestシートとAnswerシート作成'
+    For i = 1 To numberOfTest
+        CellNumber = ranList(i)  'ランダムに問題40問選択'
+    
+        'dictionaryシートから単語抽出'
+        word = dictionary.Cells(CellNumber + 1, 1).Value
+        ans = dictionary.Cells(CellNumber + 1, 2).Value
+        test.Cells(i + 2, 3).Value = word 'Testシートに問題書き込み'
+    
+        '答え'
+        answer.Cells(i + 2, 3).Value = word
+        answer.Cells(i + 2, 4).Value = ans
+        
+        'フォント'
+        Set font1 = test.Cells(i + 2, 3).font
+        font1.Size = 14
+        Set font2 = answer.Cells(i + 2, 3).font
+        font2.Size = 14
+        Set font3 = answer.Cells(i + 2, 4).font
+        font3.Size = 14
+
+    Next i
+
+    '日付記述'
+    Dim today As Date
+    today = Date
+    test.Range("E1").Value = Year(today) & "/" & Month(today) & "/" & Day(today)
+    answer.Range("E1").Value = Year(today) & "/" & Month(today) & "/" & Day(today)
+    
+    
+    
+    
+End Sub
+
+
+
+
+
