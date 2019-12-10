@@ -1,4 +1,4 @@
-<h1>英語-日本語の単語帳テスト作成Excel</h1>
+<h1>ランダム英単語帳テスト作成Excelシート</h1>
 
 ファイルは"Dictionary"，"Test"，"Answer"からなります．
 Dictionaryに"follow，〜に従う"というように記載してください．
