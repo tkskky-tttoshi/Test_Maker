@@ -1,4 +1,4 @@
-英語-日本語の単語帳テスト作成Excel
+**英語-日本語の単語帳テスト作成Excel
 
 ファイルは"Dictionary"，"Test"，"Answer"からなります．
 Dictionaryに"follow，〜に従う"というように記載してください．
