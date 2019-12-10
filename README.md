@@ -11,4 +11,4 @@ Dictionaryに"follow，〜に従う"というように記載してください�
 
 <img width="560" alt="スクリーンショット 2019-12-10 20 42 33" src="https://user-images.githubusercontent.com/41103314/70526970-20ee1000-1b8e-11ea-8625-57239ebb2247.png">
 
-Sampleをコピーし，好きな単語を打ち込んで使ってください．
+<h3>Sampleをコピーし，好きな単語を打ち込んで使ってください．</h3>
